@@ -1,7 +1,13 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+// import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 import css from './App.module.css';
 import { nanoid } from 'nanoid';
+
+import store from 'redux/store';
+
+// import { addContact, deleteContact } from 'redux/actions';
 
 import { ContactsList } from 'components/ContactsList/ContactsList';
 import { Form } from 'components/Form/Form';
@@ -12,6 +18,10 @@ export const App = () => {
     const contacts = JSON.parse(localStorage.getItem('contacts'));
     return contacts ? contacts : [];
   });
+  // const [contacts, setContact] = useState(() => {
+  //   const contacts = JSON.parse(localStorage.getItem('contacts'));
+  //   return contacts ? contacts : [];
+  // });
 
   const [filter, setFilter] = useState('');
 
@@ -70,40 +80,28 @@ export const App = () => {
     return filterList;
   };
 
-  // componentDidMount() {
-  //   const contacts = localStorage.getItem(`contacts`);
-  //   const parseContacts = JSON.parse(contacts);
-
-  //   if (parseContacts && parseContacts.length) {
-  //     this.setState({ contacts: parseContacts });
-  //   }
-  //   // console.log(parseContacts);
-  // }
-
-  // componentDidUpdate(prevState) {
-  //   const { contacts } = this.state;
-  //   if (contacts !== prevState.contacts) {
-  //     localStorage.setItem('contacts', JSON.stringify(contacts));
-  //   }
-  // }
-
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: `column`,
-        marginLeft: 40,
-        fontSize: 20,
-        color: '#010101',
-      }}
-    >
-      <h1 className={css.title}>Phonebook</h1>
-      <Form onSubmit={formSubmitHandler} />
-      <h2 className={css.title}>Contacts</h2>
-      <Filter filter={filter} handleFilter={handleFilter} />
-      <ContactsList contacts={handleNameFilter()} handleDelete={handleDelete} />
-    </div>
+    <Provider store={store}>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          flexDirection: `column`,
+          marginLeft: 40,
+          fontSize: 20,
+          color: '#010101',
+        }}
+      >
+        <h1 className={css.title}>Phonebook</h1>
+        <Form onSubmit={formSubmitHandler} />
+        <h2 className={css.title}>Contacts</h2>
+        <Filter filter={filter} handleFilter={handleFilter} />
+        <ContactsList
+          contacts={handleNameFilter()}
+          handleDelete={handleDelete}
+        />
+      </div>
+    </Provider>
   );
 };
 
@@ -116,3 +114,20 @@ export const App = () => {
 //   ],
 //   filter: '',
 // };
+
+// componentDidMount() {
+//   const contacts = localStorage.getItem(`contacts`);
+//   const parseContacts = JSON.parse(contacts);
+
+//   if (parseContacts && parseContacts.length) {
+//     this.setState({ contacts: parseContacts });
+//   }
+//   // console.log(parseContacts);
+// }
+
+// componentDidUpdate(prevState) {
+//   const { contacts } = this.state;
+//   if (contacts !== prevState.contacts) {
+//     localStorage.setItem('contacts', JSON.stringify(contacts));
+//   }
+// }

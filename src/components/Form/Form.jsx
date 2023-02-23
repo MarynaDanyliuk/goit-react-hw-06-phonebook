@@ -3,15 +3,18 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import css from './Form.module.css';
 
+import inititalState from 'components/Form/initialState';
+
 export const Form = ({ onSubmit }) => {
-  const [state, setState] = useState({
-    name: '',
-    number: '',
-  });
+  const [state, setState] = useState({ ...inititalState });
+  // const [state, setState] = useState({
+  //   name: '',
+  //   number: '',
+  // });
 
   const handleChange = event => {
     const { name, value } = event.target;
-    console.log({ [name]: value });
+    // console.log({ [name]: value });
     setState(prevState => {
       return { ...prevState, [name]: value };
     });
@@ -20,9 +23,9 @@ export const Form = ({ onSubmit }) => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    onSubmit({ name, number });
+    onSubmit({ ...state });
 
-    setState({ ...state });
+    setState({ ...inititalState });
 
     reset();
   };
