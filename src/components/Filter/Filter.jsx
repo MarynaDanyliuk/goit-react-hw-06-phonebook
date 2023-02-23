@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import css from './Filter.module.css';
 
-export const Filter = ({ filter, handleFilter }) => {
+export const Filter = ({ value, handleFilter }) => {
   return (
     <div className={css.form}>
       <label className={css.form_label}>
@@ -11,7 +11,7 @@ export const Filter = ({ filter, handleFilter }) => {
           className={css.form_input}
           type="text"
           name="filter"
-          value={filter}
+          value={value}
           onChange={handleFilter}
         />
       </label>
@@ -20,6 +20,6 @@ export const Filter = ({ filter, handleFilter }) => {
 };
 
 Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
+  filter: PropTypes.string,
   handleFilter: PropTypes.func.isRequired,
 };

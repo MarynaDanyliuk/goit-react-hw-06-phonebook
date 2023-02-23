@@ -1,109 +1,102 @@
 import React from 'react';
+import { store, persistor } from 'redux/store';
+
 import { Provider } from 'react-redux';
-// import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect } from 'react';
-import css from './App.module.css';
-import { nanoid } from 'nanoid';
-
-import store from 'redux/store';
-
-// import { addContact, deleteContact } from 'redux/actions';
+import { PersistGate } from 'redux-persist/integration/react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { ContactsList } from 'components/ContactsList/ContactsList';
 import { Form } from 'components/Form/Form';
 import { Filter } from 'components/Filter/Filter';
 
+import {
+  addContact,
+  deleteContact,
+} from '../../redux/contacts/contacts-actions';
+import { setFilter } from '../../redux/filter/filter-actions';
+
+import {
+  getAllContacts,
+  getFilteredContacts,
+  // handleNameFilter,
+} from '../../redux/contacts/contacts-selectors';
+import { getFilter } from '../../redux/filter/filter-selectors';
+
+import css from './App.module.css';
+// import { nanoid } from 'nanoid';
+
 export const App = () => {
-  const [contacts, setContact] = useState(() => {
-    const contacts = JSON.parse(localStorage.getItem('contacts'));
-    return contacts ? contacts : [];
-  });
-  // const [contacts, setContact] = useState(() => {
-  //   const contacts = JSON.parse(localStorage.getItem('contacts'));
-  //   return contacts ? contacts : [];
-  // });
+  const filteredContacts = useSelector(getFilteredContacts);
+  const allContacts = useSelector(getAllContacts);
+  const filter = useSelector(getFilter);
 
-  const [filter, setFilter] = useState('');
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
+  const isDublicate = name => {
+    const normalizedName = name.toLowerCase();
+
+    const result = allContacts.find(({ name }) => {
+      return name.toLowerCase() === normalizedName;
+    });
+
+    return Boolean(result);
+  };
 
   // ____add contact______________
-  const formSubmitHandler = ({ name, number }) => {
-    // const { name, number } = contacts;
+  const handleAddContact = ({ name, number }) => {
     console.log({ name, number });
-    const id = nanoid();
-    const contactsList = [...contacts];
-    if (
-      contactsList.findIndex(
-        contact => name.toLowerCase() === contact.name.toLowerCase()
-      ) !== -1
-    ) {
+    if (isDublicate(name)) {
       alert(`${name} is alredy in contacts!`);
-    } else {
-      setContact(prevContacts => {
-        const newContact = {
-          id: nanoid(),
-          name,
-          number,
-        };
-        return [{ ...newContact }, ...prevContacts];
-      });
-      contactsList.push({ id, name, number });
+      return false;
     }
-    console.log(contactsList);
+    dispatch(addContact({ name, number }));
   };
 
-  const handleDelete = event => {
-    const id = event.target.id;
-    setContact(prevContacts =>
-      prevContacts.filter(contact => contact.id !== id)
-    );
+  const handleDelete = id => {
+    dispatch(deleteContact(id));
   };
 
-  const handleFilter = event => {
-    // const { name, value } = event.target;
-    setFilter(event.target.value);
-    // setFilter({ [name]: value });
+  const handleFilter = ({ target }) => {
+    dispatch(setFilter(target.value));
   };
 
-  const handleNameFilter = () => {
-    if (!filter) {
-      return contacts;
-    }
-    const filterNormalize = filter.toLowerCase();
-
-    const filterList = contacts.filter(contact => {
-      return contact.name.toLowerCase().includes(filterNormalize);
-    });
-    return filterList;
-  };
+  const isContacts = Boolean(filteredContacts.length);
 
   return (
     <Provider store={store}>
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          flexDirection: `column`,
-          marginLeft: 40,
-          fontSize: 20,
-          color: '#010101',
-        }}
-      >
-        <h1 className={css.title}>Phonebook</h1>
-        <Form onSubmit={formSubmitHandler} />
-        <h2 className={css.title}>Contacts</h2>
-        <Filter filter={filter} handleFilter={handleFilter} />
-        <ContactsList
-          contacts={handleNameFilter()}
-          handleDelete={handleDelete}
-        />
-      </div>
+      <PersistGate loading={null} persistor={persistor}>
+        <div
+          style={{
+            height: '100vh',
+            display: 'flex',
+            flexDirection: `column`,
+            marginLeft: 40,
+            fontSize: 20,
+            color: '#010101',
+          }}
+        >
+          <h1 className={css.title}>Phonebook</h1>
+          <Form onSubmit={handleAddContact} />
+          <h2 className={css.title}>Contacts</h2>
+          <Filter value={filter} handleFilter={handleFilter} />
+          {isContacts && (
+            <ContactsList
+              items={filteredContacts}
+              handleDelete={handleDelete}
+            />
+          )}
+          {!isContacts && <p>No contacts in Phonebook</p>}
+        </div>
+      </PersistGate>
     </Provider>
   );
 };
+
+// __________________________________
+// contactsList.findIndex(
+//   contact => name.toLowerCase() === contact.name.toLowerCase()
+// ) !== -1
+// ______________________
 
 // state = {
 //   contacts: [
@@ -131,3 +124,20 @@ export const App = () => {
 //     localStorage.setItem('contacts', JSON.stringify(contacts));
 //   }
 // }
+// _____________________________________________
+
+// const handleFilter = event => {
+//   setFilter(event.target.value);
+// };
+
+// const handleNameFilter = () => {
+//   if (!filter) {
+//     return contacts;
+//   }
+//   const filterNormalize = filter.toLowerCase();
+
+//   const filterList = contacts.filter(contact => {
+//     return contact.name.toLowerCase().includes(filterNormalize);
+//   });
+//   return filterList;
+// };
