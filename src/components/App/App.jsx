@@ -5,21 +5,16 @@ import { ContactsList } from 'components/ContactsList/ContactsList';
 import { Form } from 'components/Form/Form';
 import { Filter } from 'components/Filter/Filter';
 
-import {
-  addContact,
-  deleteContact,
-} from '../../redux/contacts/contacts-actions';
-import { setFilter } from '../../redux/filter/filter-actions';
+import { addContact, deleteContact } from '../../redux/contacts/contacts-slice';
+import { setFilter } from '../../redux/filter/filter-slice';
 
 import {
   getAllContacts,
   getFilteredContacts,
-  // handleNameFilter,
 } from '../../redux/contacts/contacts-selectors';
 import { getFilter } from '../../redux/filter/filter-selectors';
 
 import css from './App.module.css';
-// import { nanoid } from 'nanoid';
 
 export const App = () => {
   const filteredContacts = useSelector(getFilteredContacts);

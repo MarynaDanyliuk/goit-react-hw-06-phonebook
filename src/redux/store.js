@@ -21,11 +21,11 @@ export const store = configureStore({
     }),
 });
 
+export const persistor = persistStore(store);
+
 // export const store = configureStore({
 //   reducer: rootReducer,
 // });
-
-export const persistor = persistStore(store);
 
 // import { createStore } from 'redux';
 
