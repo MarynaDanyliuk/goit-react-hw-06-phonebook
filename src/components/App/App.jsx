@@ -1,8 +1,4 @@
 import React from 'react';
-import { store, persistor } from 'redux/store';
-
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { ContactsList } from 'components/ContactsList/ContactsList';
@@ -63,32 +59,25 @@ export const App = () => {
   const isContacts = Boolean(filteredContacts.length);
 
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <div
-          style={{
-            height: '100vh',
-            display: 'flex',
-            flexDirection: `column`,
-            marginLeft: 40,
-            fontSize: 20,
-            color: '#010101',
-          }}
-        >
-          <h1 className={css.title}>Phonebook</h1>
-          <Form onSubmit={handleAddContact} />
-          <h2 className={css.title}>Contacts</h2>
-          <Filter value={filter} handleFilter={handleFilter} />
-          {isContacts && (
-            <ContactsList
-              items={filteredContacts}
-              handleDelete={handleDelete}
-            />
-          )}
-          {!isContacts && <p>No contacts in Phonebook</p>}
-        </div>
-      </PersistGate>
-    </Provider>
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        flexDirection: `column`,
+        marginLeft: 40,
+        fontSize: 20,
+        color: '#010101',
+      }}
+    >
+      <h1 className={css.title}>Phonebook</h1>
+      <Form onSubmit={handleAddContact} />
+      <h2 className={css.title}>Contacts</h2>
+      <Filter value={filter} handleFilter={handleFilter} />
+      {isContacts && (
+        <ContactsList items={filteredContacts} handleDelete={handleDelete} />
+      )}
+      {!isContacts && <p>No contacts in Phonebook</p>}
+    </div>
   );
 };
 
