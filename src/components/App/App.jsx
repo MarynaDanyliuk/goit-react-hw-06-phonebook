@@ -33,7 +33,6 @@ export const App = () => {
     return Boolean(result);
   };
 
-  // ____add contact______________
   const handleAddContact = ({ name, number }) => {
     console.log({ name, number });
     if (isDublicate(name)) {
@@ -71,17 +70,12 @@ export const App = () => {
       {isContacts && (
         <ContactsList items={filteredContacts} handleDelete={handleDelete} />
       )}
-      {!isContacts && <p>No contacts in Phonebook</p>}
+      {!isContacts && <p>No such contacts in Phonebook</p>}
     </div>
   );
 };
 
-// __________________________________
-// contactsList.findIndex(
-//   contact => name.toLowerCase() === contact.name.toLowerCase()
-// ) !== -1
-// ______________________
-
+// _______________________________________________________________
 // state = {
 //   contacts: [
 //     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
@@ -90,38 +84,4 @@ export const App = () => {
 //     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 //   ],
 //   filter: '',
-// };
-
-// componentDidMount() {
-//   const contacts = localStorage.getItem(`contacts`);
-//   const parseContacts = JSON.parse(contacts);
-
-//   if (parseContacts && parseContacts.length) {
-//     this.setState({ contacts: parseContacts });
-//   }
-//   // console.log(parseContacts);
-// }
-
-// componentDidUpdate(prevState) {
-//   const { contacts } = this.state;
-//   if (contacts !== prevState.contacts) {
-//     localStorage.setItem('contacts', JSON.stringify(contacts));
-//   }
-// }
-// _____________________________________________
-
-// const handleFilter = event => {
-//   setFilter(event.target.value);
-// };
-
-// const handleNameFilter = () => {
-//   if (!filter) {
-//     return contacts;
-//   }
-//   const filterNormalize = filter.toLowerCase();
-
-//   const filterList = contacts.filter(contact => {
-//     return contact.name.toLowerCase().includes(filterNormalize);
-//   });
-//   return filterList;
 // };

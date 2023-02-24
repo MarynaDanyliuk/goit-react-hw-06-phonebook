@@ -7,10 +7,6 @@ import inititalState from 'components/Form/initialState';
 
 export const Form = ({ onSubmit }) => {
   const [state, setState] = useState({ ...inititalState });
-  // const [state, setState] = useState({
-  //   name: '',
-  //   number: '',
-  // });
 
   const handleChange = event => {
     const { name, value } = event.target;

@@ -23,6 +23,7 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
+// ________________________________________
 // export const store = configureStore({
 //   reducer: rootReducer,
 // });
