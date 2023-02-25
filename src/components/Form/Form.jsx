@@ -31,6 +31,7 @@ export const Form = () => {
     console.log({ name, number });
     if (isDublicate(name)) {
       alert(`${name} is alredy in contacts!`);
+      setState({ name, number });
       return false;
     }
 
