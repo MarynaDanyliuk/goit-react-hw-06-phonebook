@@ -5,46 +5,45 @@ import { ContactsList } from 'components/ContactsList/ContactsList';
 import { Form } from 'components/Form/Form';
 import { Filter } from 'components/Filter/Filter';
 
-import { addContact, deleteContact } from '../../redux/contacts/contacts-slice';
+// addContact,
+// import { deleteContact } from '../../redux/contacts/contacts-slice';
 import { setFilter } from '../../redux/filter/filter-slice';
 
-import {
-  getAllContacts,
-  getFilteredContacts,
-} from '../../redux/contacts/contacts-selectors';
-import { getFilter } from '../../redux/filter/filter-selectors';
+//  getAllContacts,
+import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
+// import { getFilter } from '../../redux/filter/filter-selectors';
 
 import css from './App.module.css';
 
 export const App = () => {
   const filteredContacts = useSelector(getFilteredContacts);
-  const allContacts = useSelector(getAllContacts);
-  const filter = useSelector(getFilter);
+  // const allContacts = useSelector(getAllContacts);
+  // const filter = useSelector(getFilter);
 
   const dispatch = useDispatch();
 
-  const isDublicate = name => {
-    const normalizedName = name.toLowerCase();
+  // const isDublicate = name => {
+  //   const normalizedName = name.toLowerCase();
 
-    const result = allContacts.find(({ name }) => {
-      return name.toLowerCase() === normalizedName;
-    });
+  //   const result = allContacts.find(({ name }) => {
+  //     return name.toLowerCase() === normalizedName;
+  //   });
 
-    return Boolean(result);
-  };
+  //   return Boolean(result);
+  // };
 
-  const handleAddContact = ({ name, number }) => {
-    console.log({ name, number });
-    if (isDublicate(name)) {
-      alert(`${name} is alredy in contacts!`);
-      return false;
-    }
-    dispatch(addContact({ name, number }));
-  };
+  // const handleAddContact = ({ name, number }) => {
+  //   console.log({ name, number });
+  //   if (isDublicate(name)) {
+  //     alert(`${name} is alredy in contacts!`);
+  //     return false;
+  //   }
+  //   dispatch(addContact({ name, number }));
+  // };
 
-  const handleDelete = id => {
-    dispatch(deleteContact(id));
-  };
+  // const handleDelete = id => {
+  //   dispatch(deleteContact(id));
+  // };
 
   const handleFilter = ({ target }) => {
     dispatch(setFilter(target.value));
@@ -64,16 +63,21 @@ export const App = () => {
       }}
     >
       <h1 className={css.title}>Phonebook</h1>
-      <Form onSubmit={handleAddContact} />
+      <Form />
       <h2 className={css.title}>Contacts</h2>
-      <Filter value={filter} handleFilter={handleFilter} />
-      {isContacts && (
-        <ContactsList items={filteredContacts} handleDelete={handleDelete} />
-      )}
+      <Filter handleFilter={handleFilter} />
+      {isContacts && <ContactsList />}
       {!isContacts && <p>No such contacts in Phonebook</p>}
     </div>
   );
 };
+
+//  handleDelete = { handleDelete };
+// items = { filteredContacts };
+// __________________________________________________________
+// onSubmit = { handleAddContact };
+// ____________________________________________________________
+//  value = { filter };
 
 // _______________________________________________________________
 // state = {

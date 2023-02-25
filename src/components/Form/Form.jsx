@@ -1,12 +1,21 @@
 import React from 'react';
 import { useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import css from './Form.module.css';
 
 import inititalState from 'components/Form/initialState';
 
-export const Form = ({ onSubmit }) => {
+import { useSelector, useDispatch } from 'react-redux';
+
+import { getAllContacts } from 'redux/contacts/contacts-selectors';
+
+import { addContact } from '../../redux/contacts/contacts-slice';
+
+export const Form = () => {
   const [state, setState] = useState({ ...inititalState });
+  const allContacts = useSelector(getAllContacts);
+
+  const dispatch = useDispatch();
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -19,9 +28,14 @@ export const Form = ({ onSubmit }) => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    onSubmit({ ...state });
-
     setState({ ...inititalState });
+    console.log({ name, number });
+    if (isDublicate(name)) {
+      alert(`${name} is alredy in contacts!`);
+      return false;
+    }
+
+    dispatch(addContact({ name, number }));
 
     reset();
   };
@@ -31,6 +45,15 @@ export const Form = ({ onSubmit }) => {
       name: '',
       number: '',
     });
+  };
+
+  const isDublicate = name => {
+    const normalizedName = name.toLowerCase();
+    const result = allContacts.find(({ name }) => {
+      return name.toLowerCase() === normalizedName;
+    });
+
+    return Boolean(result);
   };
 
   const { name, number } = state;
@@ -72,6 +95,6 @@ export const Form = ({ onSubmit }) => {
   );
 };
 
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
+// Form.propTypes = {
+//   onSubmit: PropTypes.func.isRequired,
+// };

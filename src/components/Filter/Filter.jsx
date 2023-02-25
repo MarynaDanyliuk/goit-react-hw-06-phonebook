@@ -1,8 +1,13 @@
-import React from 'react';
+// import React from 'react';
 import PropTypes from 'prop-types';
 import css from './Filter.module.css';
 
-export const Filter = ({ value, handleFilter }) => {
+import { useSelector } from 'react-redux';
+
+import { getFilter } from 'redux/filter/filter-selectors';
+
+export const Filter = ({ handleFilter }) => {
+  const filter = useSelector(getFilter);
   return (
     <div className={css.form}>
       <label className={css.form_label}>
@@ -11,7 +16,7 @@ export const Filter = ({ value, handleFilter }) => {
           className={css.form_input}
           type="text"
           name="filter"
-          value={value}
+          value={filter}
           onChange={handleFilter}
         />
       </label>

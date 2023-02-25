@@ -1,8 +1,17 @@
 import PropTypes from 'prop-types';
 import css from './ContactsList.module.css';
 
-export const ContactsList = ({ handleDelete, items }) => {
-  const elements = items.map(({ id, name, number }) => (
+import { useSelector, useDispatch } from 'react-redux';
+
+// import { getAllContacts } from 'redux/contacts/contacts-selectors';
+import { getFilteredContacts } from 'redux/contacts/contacts-selectors';
+import { deleteContact } from '../../redux/contacts/contacts-slice';
+
+export const ContactsList = () => {
+  const filteredContacts = useSelector(getFilteredContacts);
+  // const allContacts = useSelector(getAllContacts);
+
+  const elements = filteredContacts.map(({ id, name, number }) => (
     <li key={id} className={css.contact}>
       {name}: {number}
       <button
@@ -15,6 +24,11 @@ export const ContactsList = ({ handleDelete, items }) => {
       </button>
     </li>
   ));
+
+  const dispatch = useDispatch();
+  const handleDelete = id => {
+    dispatch(deleteContact(id));
+  };
 
   return (
     <div>
@@ -35,5 +49,5 @@ ContactsList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ),
-  handleDelete: PropTypes.func.isRequired,
+  // handleDelete: PropTypes.func.isRequired,
 };
