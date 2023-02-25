@@ -36,15 +36,15 @@ export const Form = () => {
 
     dispatch(addContact({ name, number }));
 
-    reset();
+    // reset();
   };
 
-  const reset = () => {
-    setState({
-      name: '',
-      number: '',
-    });
-  };
+  // const reset = () => {
+  //   setState({
+  //     name: '',
+  //     number: '',
+  //   });
+  // };
 
   const isDublicate = name => {
     const normalizedName = name.toLowerCase();
