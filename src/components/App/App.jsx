@@ -1,53 +1,16 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ContactsList } from 'components/ContactsList/ContactsList';
 import { Form } from 'components/Form/Form';
 import { Filter } from 'components/Filter/Filter';
 
-// addContact,
-// import { deleteContact } from '../../redux/contacts/contacts-slice';
-import { setFilter } from '../../redux/filter/filter-slice';
-
-//  getAllContacts,
 import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
-// import { getFilter } from '../../redux/filter/filter-selectors';
 
 import css from './App.module.css';
 
 export const App = () => {
   const filteredContacts = useSelector(getFilteredContacts);
-  // const allContacts = useSelector(getAllContacts);
-  // const filter = useSelector(getFilter);
-
-  const dispatch = useDispatch();
-
-  // const isDublicate = name => {
-  //   const normalizedName = name.toLowerCase();
-
-  //   const result = allContacts.find(({ name }) => {
-  //     return name.toLowerCase() === normalizedName;
-  //   });
-
-  //   return Boolean(result);
-  // };
-
-  // const handleAddContact = ({ name, number }) => {
-  //   console.log({ name, number });
-  //   if (isDublicate(name)) {
-  //     alert(`${name} is alredy in contacts!`);
-  //     return false;
-  //   }
-  //   dispatch(addContact({ name, number }));
-  // };
-
-  // const handleDelete = id => {
-  //   dispatch(deleteContact(id));
-  // };
-
-  const handleFilter = ({ target }) => {
-    dispatch(setFilter(target.value));
-  };
 
   const isContacts = Boolean(filteredContacts.length);
 
@@ -65,13 +28,54 @@ export const App = () => {
       <h1 className={css.title}>Phonebook</h1>
       <Form />
       <h2 className={css.title}>Contacts</h2>
-      <Filter handleFilter={handleFilter} />
+      <Filter />
       {isContacts && <ContactsList />}
       {!isContacts && <p>No such contacts in Phonebook</p>}
     </div>
   );
 };
 
+// ________________________________________________________________
+// import { getFilter } from '../../redux/filter/filter-selectors';
+// addContact,
+// import { deleteContact } from '../../redux/contacts/contacts-slice';
+// import { setFilter } from '../../redux/filter/filter-slice';
+
+//  getAllContacts,
+
+// const allContacts = useSelector(getAllContacts);
+// const filter = useSelector(getFilter);
+
+// const dispatch = useDispatch();
+
+// const isDublicate = name => {
+//   const normalizedName = name.toLowerCase();
+
+//   const result = allContacts.find(({ name }) => {
+//     return name.toLowerCase() === normalizedName;
+//   });
+
+//   return Boolean(result);
+// };
+
+// const handleAddContact = ({ name, number }) => {
+//   console.log({ name, number });
+//   if (isDublicate(name)) {
+//     alert(`${name} is alredy in contacts!`);
+//     return false;
+//   }
+//   dispatch(addContact({ name, number }));
+// };
+
+// const handleDelete = id => {
+//   dispatch(deleteContact(id));
+// };
+
+// const handleFilter = ({ target }) => {
+//   dispatch(setFilter(target.value));
+// };
+// ___________________________________________________________
+// handleFilter = { handleFilter };
 //  handleDelete = { handleDelete };
 // items = { filteredContacts };
 // __________________________________________________________

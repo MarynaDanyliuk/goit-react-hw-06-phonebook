@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-// import PropTypes from 'prop-types';
 import css from './Form.module.css';
 
 import inititalState from 'components/Form/initialState';
@@ -95,6 +94,8 @@ export const Form = () => {
   );
 };
 
+// __________________________________
+// import PropTypes from 'prop-types';
 // Form.propTypes = {
 //   onSubmit: PropTypes.func.isRequired,
 // };

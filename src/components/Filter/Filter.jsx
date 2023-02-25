@@ -1,13 +1,19 @@
-// import React from 'react';
-import PropTypes from 'prop-types';
 import css from './Filter.module.css';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { getFilter } from 'redux/filter/filter-selectors';
+import { setFilter } from '../../redux/filter/filter-slice';
 
-export const Filter = ({ handleFilter }) => {
+export const Filter = () => {
   const filter = useSelector(getFilter);
+
+  const dispatch = useDispatch();
+
+  const handleFilter = ({ target }) => {
+    dispatch(setFilter(target.value));
+  };
+
   return (
     <div className={css.form}>
       <label className={css.form_label}>
@@ -24,7 +30,9 @@ export const Filter = ({ handleFilter }) => {
   );
 };
 
-Filter.propTypes = {
-  filter: PropTypes.string,
-  handleFilter: PropTypes.func.isRequired,
-};
+// import React from 'react';
+// import PropTypes from 'prop-types';
+// Filter.propTypes = {
+//   filter: PropTypes.string,
+//   handleFilter: PropTypes.func.isRequired,
+// };

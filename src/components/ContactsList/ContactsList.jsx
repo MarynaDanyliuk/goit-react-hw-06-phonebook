@@ -1,15 +1,12 @@
-import PropTypes from 'prop-types';
 import css from './ContactsList.module.css';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-// import { getAllContacts } from 'redux/contacts/contacts-selectors';
 import { getFilteredContacts } from 'redux/contacts/contacts-selectors';
 import { deleteContact } from '../../redux/contacts/contacts-slice';
 
 export const ContactsList = () => {
   const filteredContacts = useSelector(getFilteredContacts);
-  // const allContacts = useSelector(getAllContacts);
 
   const elements = filteredContacts.map(({ id, name, number }) => (
     <li key={id} className={css.contact}>
@@ -41,13 +38,18 @@ ContactsList.defaultProps = {
   items: [],
 };
 
-ContactsList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  // handleDelete: PropTypes.func.isRequired,
-};
+// _____________________________________________________________
+// import PropTypes from 'prop-types';
+// import { getAllContacts } from 'redux/contacts/contacts-selectors';
+// ContactsList.propTypes = {
+//   contacts: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.string.isRequired,
+//       name: PropTypes.string.isRequired,
+//       number: PropTypes.string.isRequired,
+//     })
+//   ),
+//   handleDelete: PropTypes.func.isRequired,
+// };
+
+// const allContacts = useSelector(getAllContacts);

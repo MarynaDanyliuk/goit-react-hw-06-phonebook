@@ -12,10 +12,12 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: 'root',
-  version: 1,
   storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export default persistedReducer;
+
+// _________________________________
+// version: 1,
